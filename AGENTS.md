@@ -2,7 +2,7 @@
 
 ## Project: 2026 世界杯晋级预测
 
-A drag-and-drop World Cup 2026 prediction web app with CS2 MAJOR-style animations.
+A drag-and-drop World Cup 2026 knockout-stage prediction web app with CS:GO Major-style team cards and animations.
 
 ## Commands
 - `npm run dev` — Start dev server
@@ -16,10 +16,51 @@ A drag-and-drop World Cup 2026 prediction web app with CS2 MAJOR-style animation
 - Framer Motion for animations
 - Zustand for state management
 - html-to-image for screenshot export
+- flagcdn.com for national flag images
 
 ## File Structure
-- `src/constants/teams.ts` — 48 teams data
-- `src/types/index.ts` — TypeScript interfaces
-- `src/store/usePredictionStore.ts` — Zustand global state
-- `src/utils/bracket.ts` — Knockout bracket generation
-- `src/components/` — React components
+```
+src/
+├── main.tsx                          # Entry point
+├── App.tsx                           # Root component
+├── index.css                         # Tailwind + global styles
+├── vite-env.d.ts
+├── constants/
+│   └── teams.ts                      # 32 knockout teams data (flag URLs, names)
+├── types/
+│   └── index.ts                      # TypeScript interfaces (Team, KnockoutMatch, Stage...)
+├── store/
+│   └── usePredictionStore.ts         # Zustand global state (bracket, winners, lock)
+├── utils/
+│   ├── bracket.ts                    # Official FIFA 2026 knockout bracket generation
+│   └── exportImage.ts                # html-to-image PNG export
+└── components/
+    ├── Layout.tsx                     # Header (reset, lock, export buttons)
+    ├── BracketTree.tsx                # SVG connector lines + match card grid
+    ├── KnockoutStage.tsx              # DndContext + drag/click handlers
+    ├── MatchNode.tsx                  # MatchPair: two TeamCards + info bar
+    ├── TeamCard.tsx                   # Single team card (flag bg, winner/loser/champion)
+    ├── TeamBadge.tsx                  # Inline team badge with flag
+    ├── ExportButton.tsx               # Export to PNG button
+    └── bracketLayout.ts              # Layout engine (X/Y positions, connectors, bounds)
+```
+
+## Branches
+- `master` — Initial stable release
+- `optimize-logic` — R32 click-only, cascade cancel fix
+- `optimize-layout` — Cascade gray effect, champion gold, lock button
+
+## Key Features
+- **R32**: click-only selection (no drag)
+- **R16+**: click or drag to advance
+- **Cascade gray**: eliminated winners turn gray in prior rounds
+- **Champion gold**: final winner gets gold border + crown badge
+- **Lock**: freeze all selections for sharing/export
+- **Reset**: clear all predictions
+- **Export**: download bracket as PNG (2x quality)
+- **Cancel**: click completed winner to undo
+
+## Bracket Data
+- Source: FIFA 2026 official knockout bracket (ESPN / worldcupstats)
+- 32 teams from group stage, R32 → R16 → QF → SF → Final
+- Match dates, times, and venues included
