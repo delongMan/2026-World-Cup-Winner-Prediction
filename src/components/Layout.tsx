@@ -30,8 +30,8 @@ export function Layout({ children }: { children: ReactNode }) {
   const setLang = usePredictionStore(s => s.setLang);
 
   return (
-    <div className="bg-[#060b14] text-white min-w-max">
-      <header className="flex items-center justify-between py-2 sm:py-3 bg-[#060b14] sticky top-0 left-0 z-50 gap-1 sm:gap-2" style={{ paddingLeft: 'max(0.75rem, var(--safe-left))', paddingRight: 'max(0.75rem, var(--safe-right))', paddingTop: 'max(0.5rem, var(--safe-top))' }}>
+    <div className="bg-[#060b14] text-white flex flex-col" style={{ height: '100dvh' }}>
+      <header className="flex items-center justify-between py-2 sm:py-3 bg-[#060b14] shrink-0 gap-1 sm:gap-2" style={{ paddingLeft: 'max(0.75rem, var(--safe-left))', paddingRight: 'max(0.75rem, var(--safe-right))', paddingTop: 'max(0.5rem, var(--safe-top))' }}>
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <span className="text-xl sm:text-2xl">🏆</span>
           <div className="hidden sm:block">
@@ -65,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <ExportButton />
         </div>
       </header>
-      <main id="prediction-content">{children}</main>
+      <main id="prediction-content" className="flex-1 overflow-auto" style={{ WebkitOverflowScrolling: 'touch' }}>{children}</main>
     </div>
   );
 }
