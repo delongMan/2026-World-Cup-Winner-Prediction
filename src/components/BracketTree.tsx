@@ -37,7 +37,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
       </div>
 
       {/* Bracket body */}
-      <div id="bracket-body" className="mx-auto pt-0 px-8 pb-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
+      <div id="bracket-body" className="mx-auto pt-4 px-8 pb-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
         <div className="relative" style={{ width: bounds.totalW, height: bounds.totalH }}>
         <svg className="absolute inset-0 pointer-events-none z-0" width={bounds.totalW} height={bounds.totalH}>
           <defs>
