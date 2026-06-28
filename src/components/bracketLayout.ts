@@ -68,5 +68,5 @@ export function computeBounds(layout: Map<string, LayoutNode>) {
   const minY = Math.min(...ns.map(n => n.y));
   const maxY = Math.max(...ns.map(n => n.y + n.h));
   const maxX = Math.max(...ns.map(n => n.x + n.w));
-  return { minY, maxY, maxX, totalW: maxX + 80, totalH: maxY - minY + 40 };
+  return { minY, maxY, maxX, totalW: maxX + 80, totalH: maxY - minY + 64 };
 }

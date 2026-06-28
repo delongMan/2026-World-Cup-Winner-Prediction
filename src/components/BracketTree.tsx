@@ -53,7 +53,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
           <g fill="none">
             {conns.map((c, i) => {
               const mx = (c.x1 + c.x2) / 2;
-              const oy = -bounds.minY + 16;
+              const oy = -bounds.minY + 40;
               return (
                 <g key={`l${i}`}>
                   <polyline
@@ -81,7 +81,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
           const teams = teamsCache.get(m.id)!;
           return (
             <div key={m.id} className="absolute z-10 animate-fade-up" data-match-id={m.id}
-              style={{ left: node.x, top: node.y - bounds.minY + 16, width: node.w, height: node.h, animationDelay: `${i * 12}ms` }}>
+              style={{ left: node.x, top: node.y - bounds.minY + 40, width: node.w, height: node.h, animationDelay: `${i * 12}ms` }}>
               <MatchPair match={m} team1={teams.team1} team2={teams.team2} isComplete={!!winners[m.id]} onTeamClick={onTeamClick} bp={bp} highlightId={highlightId} />
             </div>
           );
