@@ -18,23 +18,17 @@ export default {
       animation: {
         'pulse-slot': 'pulseSlot 2s ease-in-out infinite',
         'glow-line': 'glowLine 1.5s ease-in-out infinite',
-        'bounce-in': 'bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
       },
       keyframes: {
-        pulseSlot: {
-          '0%, 100%': { opacity: '0.3' },
-          '50%': { opacity: '0.6' },
-        },
-        glowLine: {
-          '0%': { strokeDashoffset: '1000' },
-          '100%': { strokeDashoffset: '0' },
-        },
-        bounceIn: {
-          '0%': { transform: 'scale(0)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
+        pulseSlot: { '0%, 100%': { opacity: '0.3' }, '50%': { opacity: '0.6' } },
+        glowLine: { '0%': { strokeDashoffset: '1000' }, '100%': { strokeDashoffset: '0' } },
+      },
+      containers: {
+        bracket: '320px',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/container-queries'),
+  ],
 } satisfies Config

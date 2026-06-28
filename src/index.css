@@ -4,72 +4,70 @@
 
 :root {
   --bg: #060b14;
-  --bg2: #0c1226;
-  --bg3: #131b33;
-  --card: rgba(255,255,255,0.03);
-  --border: rgba(255,255,255,0.06);
   --gold: #f0c040;
   --emerald: #34d399;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   background: var(--bg);
   color: #e5e7eb;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
 }
 
-/* Subtle radial background glow */
 body::before {
   content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 30% 10%, rgba(240,192,64,0.03) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 70% 50%, rgba(52,211,153,0.02) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: -1;
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 30% 10%, rgba(240,192,64,0.03) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 70% 50%, rgba(52,211,153,0.02) 0%, transparent 50%);
+  pointer-events: none; z-index: -1;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
+/* Smooth scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
 
-/* Glow line travel */
+/* Animations */
 @keyframes glowTravel {
   0%   { stroke-dashoffset: 200; }
   100% { stroke-dashoffset: 0; }
 }
-.animate-glow-line {
-  animation: glowTravel 2s linear infinite;
-}
+.animate-glow-line { animation: glowTravel 2s linear infinite; }
 
-/* Glass card base */
-.glass {
-  background: rgba(255,255,255,0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
-}
-
-/* Pulse for ready state */
 @keyframes readyPulse {
-  0%, 100% { box-shadow: 0 0 16px rgba(52,211,153,0.20); }
-  50% { box-shadow: 0 0 28px rgba(52,211,153,0.35); }
+  0%, 100% { box-shadow: 0 0 12px rgba(52,211,153,0.15); }
+  50% { box-shadow: 0 0 22px rgba(52,211,153,0.30); }
 }
-.animate-ready {
-  animation: readyPulse 2s ease-in-out infinite;
-}
+.animate-ready { animation: readyPulse 2s ease-in-out infinite; }
 
-/* Fade in up */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-up {
-  animation: fadeUp 0.4s ease-out forwards;
+.animate-fade-up { animation: fadeUp 0.35s ease-out forwards; }
+
+/* Container query for bracket card scaling */
+@container bracket (max-width: 400px) {
+  .bracket-card-sm { --card-scale: 0.7; }
+}
+@container bracket (max-width: 600px) {
+  .bracket-card-md { --card-scale: 0.85; }
 }

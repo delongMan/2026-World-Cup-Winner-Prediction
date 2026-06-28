@@ -2,6 +2,7 @@ import { DndContext, DragOverlay, closestCenter, type DragStartEvent, type DragE
 import { useState, useCallback } from 'react';
 import { usePredictionStore } from '../store/usePredictionStore';
 import { BracketTree } from './BracketTree';
+import { useBreakpoint } from './breakpoint';
 import type { Team, KnockoutMatch } from '../types';
 
 export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
@@ -10,6 +11,7 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
   const getMatchTeams = usePredictionStore(s => s.getMatchTeams);
   const knockoutWinners = usePredictionStore(s => s.knockoutWinners);
   const [activeTeam, setActiveTeam] = useState<Team | null>(null);
+  const bp = useBreakpoint();
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
 
@@ -46,9 +48,12 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
       </div>
       <DragOverlay dropAnimation={null}>
         {activeTeam ? (
-          <div className="w-[88px] h-[72px] rounded-2xl overflow-hidden ring-2 ring-accent-gold/60 shadow-xl opacity-90" style={{ backgroundImage: `url(${activeTeam.flagUrl})`, backgroundSize: 'cover' }}>
-            <div className="w-full h-full bg-gradient-to-t from-black/70 via-black/30 to-transparent flex items-end justify-center pb-2.5">
-              <p className="text-[11px] font-bold text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">{activeTeam.nameZh}</p>
+          <div className="rounded-2xl overflow-hidden ring-2 ring-accent-gold/60 shadow-2xl relative opacity-90"
+            style={{ width: bp.cardW, height: bp.cardH }}>
+            <img src={activeTeam.flagUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+            <div className="absolute inset-x-0 bottom-2 flex justify-center">
+              <p className="font-bold text-white drop-shadow-lg" style={{ fontSize: bp.fs - 1 }}>{activeTeam.nameZh}</p>
             </div>
           </div>
         ) : null}
