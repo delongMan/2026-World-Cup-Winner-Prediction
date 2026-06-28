@@ -65,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <ExportButton />
         </div>
       </header>
-      <main id="prediction-content" className="flex-1 overflow-auto" style={{ WebkitOverflowScrolling: 'touch' }}>{children}</main>
+      <main id="prediction-content" className="flex-1 overflow-auto">{children}</main>
     </div>
   );
 }
