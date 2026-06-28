@@ -1,4 +1,4 @@
-import { DndContext, DragOverlay, closestCenter, type DragStartEvent, type DragEndEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCenter, type DragStartEvent, type DragEndEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { useState, useCallback } from 'react';
 import { usePredictionStore } from '../store/usePredictionStore';
 import { BracketTree } from './BracketTree';
@@ -15,7 +15,10 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
   const lang = usePredictionStore(s => s.lang);
   const bp = useBreakpoint();
 
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  );
 
   // Click: select winner (team) or cancel (null)
   const handleTeamClick = useCallback((matchId: string, team: Team | null) => {
