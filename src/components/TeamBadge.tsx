@@ -46,7 +46,7 @@ export const TeamBadge = forwardRef<HTMLDivElement, TeamBadgeProps>(
           }}
         />
         <span className="hidden">{team.flagEmoji}</span>
-        <span className="truncate max-w-[90px] leading-tight">{team.name.zh}</span>
+        <span className="truncate max-w-[90px] leading-tight">{team.name['zh-CN']}</span>
         {isWinner && <span className="text-[10px] ml-0.5">👑</span>}
       </div>
     );

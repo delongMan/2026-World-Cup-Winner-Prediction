@@ -28,6 +28,7 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
   const isR32 = match.round === 'round32';
   const canDrag = canInteract && !isR32;
   const isFinal = match.round === 'final';
+  const isSemi = match.round === 'semi';
 
   const winnerTeam = match.winnerId ? (team1?.id === match.winnerId ? team1 : team2) : null;
   const eliminatedLater: boolean = !!winnerTeam && (() => {
@@ -35,6 +36,8 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
     while (nextId) {
       const nm = bracket.find(m => m.id === nextId);
       if (!nm) break;
+      // Final loser stays green (runner-up, not eliminated)
+      if (nm.round === 'final') return false;
       if (nm.winnerId) return nm.winnerId !== winnerTeam.id;
       nextId = nm.nextMatchId;
     }
@@ -56,10 +59,11 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
       <motion.div data-match-id={match.id}
         className={`relative z-10 flex-shrink-0 transition-all duration-200 ease-out overflow-hidden
           ${isHighlighted ? 'rounded-2xl ring-2 ring-accent-gold bg-accent-gold/8 scale-105 shadow-xl shadow-accent-gold/10'
-            : isFinal && isComplete ? 'rounded-2xl border-2 border-accent-gold/60 bg-accent-gold/[0.06] shadow-[0_0_24px_rgba(240,192,64,0.2)]'
-            : isComplete ? 'rounded-2xl ring-1 ring-emerald-400/15 bg-emerald-500/[0.03]'
-            : hasBoth ? 'rounded-2xl ring-1 ring-white/8 bg-white/[0.02]'
-            : 'rounded-2xl ring-1 ring-white/5 bg-white/[0.01]'}
+            : isFinal && isComplete ? 'rounded-2xl border-[4px] border-accent-gold/70 bg-[#060b14]/90 shadow-[0_0_32px_rgba(240,192,64,0.25)]'
+            : isSemi && isComplete ? 'rounded-2xl ring-[3px] ring-slate-300/50 bg-[#060b14]/90 shadow-[0_0_20px_rgba(203,213,225,0.2)]'
+            : isComplete ? 'rounded-2xl ring-1 ring-emerald-400/15 bg-[#060b14]/90'
+            : hasBoth ? 'rounded-2xl ring-1 ring-white/8 bg-[#060b14]/90'
+            : 'rounded-2xl ring-1 ring-white/5 bg-[#060b14]/80'}
         `}
         style={{ width: matchW, padding: '4px 6px' }}
       >
@@ -75,12 +79,12 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
             <div className="flex-shrink-0">
               {team1
                 ? <TeamCard team={team1} matchId={match.id} isWinner={false} isLoser={false} isChampion={false} canInteract={canInteract} canDrag={canDrag} onClick={h1} cardW={cardW} cardH={cardH} fs={fs} lang={lang} />
-                : <div className="rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]" style={{ width: cardW, height: cardH }}><span style={{ fontSize: fs - 1 }} className="text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
+                : <div className="rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-[#060b14]/80" style={{ width: cardW, height: cardH }}><span style={{ fontSize: fs - 1 }} className="text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
             <div className="flex-shrink-0">
               {team2
                 ? <TeamCard team={team2} matchId={match.id} isWinner={false} isLoser={false} isChampion={false} canInteract={canInteract} canDrag={canDrag} onClick={h2} cardW={cardW} cardH={cardH} fs={fs} lang={lang} />
-                : <div className="rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]" style={{ width: cardW, height: cardH }}><span style={{ fontSize: fs - 1 }} className="text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
+                : <div className="rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-[#060b14]/80" style={{ width: cardW, height: cardH }}><span style={{ fontSize: fs - 1 }} className="text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
           </>
         )}
@@ -88,7 +92,7 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
       <div className="flex items-center justify-between mt-1.5 px-0.5" style={{ fontSize: fs - 1 }}>
         <span className="text-white/25 font-medium tracking-wider">{match.label}</span>
         <span className={`font-medium ${isComplete ? 'text-emerald-400' : hasBoth ? 'text-amber-300/60' : 'text-white/20'}`}>
-          {isComplete ? '✓' : canDrag ? '●' : hasBoth ? '●' : '○'} {formatMatchTime(match.matchDate)}
+          {isComplete ? '✓' : canDrag ? '●' : hasBoth ? '●' : '○'} {formatMatchTime(match.matchDate, lang)}
         </span>
       </div>
       {isComplete && (

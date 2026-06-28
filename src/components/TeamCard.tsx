@@ -31,7 +31,7 @@ export function TeamCard({ team, matchId, isWinner, isLoser, isChampion, canInte
       className={`
         relative overflow-hidden select-none transition-all duration-250 ease-out
         ${isChampion
-          ? 'rounded-2xl border-[3px] border-accent-gold/90 shadow-[0_0_40px_rgba(240,192,64,0.6),inset_0_0_20px_rgba(240,192,64,0.1)] z-10'
+          ? 'rounded-2xl border-[4px] border-accent-gold/80 shadow-[0_0_48px_rgba(240,192,64,0.6),inset_0_0_24px_rgba(240,192,64,0.1)] z-10'
           : isWinner
             ? 'rounded-2xl ring-2 ring-emerald-400/60 shadow-[0_0_28px_rgba(52,211,153,0.40)] z-10 cursor-pointer'
             : isLoser

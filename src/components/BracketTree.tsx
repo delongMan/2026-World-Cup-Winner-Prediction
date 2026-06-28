@@ -37,7 +37,8 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
       </div>
 
       {/* Bracket body */}
-      <div className="relative mx-auto" style={{ width: bounds.totalW, height: bounds.totalH }}>
+      <div id="bracket-body" className="mx-auto p-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
+        <div className="relative" style={{ width: bounds.totalW, height: bounds.totalH }}>
         <svg className="absolute inset-0 pointer-events-none z-0" width={bounds.totalW} height={bounds.totalH}>
           <defs>
             <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(255,255,255,0.08)" /><stop offset="100%" stopColor="#34d399" /></linearGradient>
@@ -79,6 +80,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

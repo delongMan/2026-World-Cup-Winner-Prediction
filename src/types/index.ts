@@ -4,7 +4,7 @@ export type KnockoutRound = 'round32' | 'round16' | 'quarter' | 'semi' | 'final'
 
 export type MatchStatus = 'upcoming' | 'live' | 'completed';
 
-export type Lang = 'en' | 'zh' | 'es' | 'fr' | 'de' | 'ja' | 'ko' | 'ar';
+export type Lang = 'en' | 'zh-CN' | 'zh-TW' | 'es' | 'fr' | 'de' | 'ja' | 'ko' | 'ar' | 'pt' | 'nl' | 'it' | 'sv' | 'hr' | 'no' | 'bs';
 
 export interface Team {
   id: string;
