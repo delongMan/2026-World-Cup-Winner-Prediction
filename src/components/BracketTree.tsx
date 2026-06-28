@@ -3,7 +3,8 @@ import type { KnockoutMatch, Team } from '../types';
 import { MatchPair } from './MatchNode';
 import { computeLayout, computeConnectors, computeBounds, ROUND_ORDER } from './bracketLayout';
 import { useBreakpoint } from './breakpoint';
-import { ROUND_LABELS } from '../utils/bracket';
+import { getRoundLabel } from '../utils/bracket';
+import { usePredictionStore } from '../store/usePredictionStore';
 
 interface P {
   allMatches: KnockoutMatch[];
@@ -15,6 +16,7 @@ interface P {
 
 export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlightId }: P) {
   const bp = useBreakpoint();
+  const lang = usePredictionStore(s => s.lang);
   const layout = useMemo(() => computeLayout(allMatches, bp), [allMatches, bp]);
   const conns = useMemo(() => computeConnectors(allMatches, layout, winners), [allMatches, layout, winners]);
   const bounds = useMemo(() => computeBounds(layout), [layout]);
@@ -38,7 +40,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
               <div key={r} className="absolute h-full border-x border-white/5"
                 style={{ left: colX, width: colW }}>
                 <div className="text-center py-2">
-                  <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{ROUND_LABELS[r]}</span>
+                  <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{getRoundLabel(r, lang)}</span>
                 </div>
               </div>
             );
@@ -53,7 +55,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
           <g fill="none">
             {conns.map((c, i) => {
               const mx = (c.x1 + c.x2) / 2;
-              const oy = -bounds.minY + 40;
+              const oy = -bounds.minY + 64;
               return (
                 <g key={`l${i}`}>
                   <polyline
@@ -81,7 +83,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
           const teams = teamsCache.get(m.id)!;
           return (
             <div key={m.id} className="absolute z-10 animate-fade-up" data-match-id={m.id}
-              style={{ left: node.x, top: node.y - bounds.minY + 40, width: node.w, height: node.h, animationDelay: `${i * 12}ms` }}>
+              style={{ left: node.x, top: node.y - bounds.minY + 64, width: node.w, height: node.h, animationDelay: `${i * 12}ms` }}>
               <MatchPair match={m} team1={teams.team1} team2={teams.team2} isComplete={!!winners[m.id]} onTeamClick={onTeamClick} bp={bp} highlightId={highlightId} />
             </div>
           );
