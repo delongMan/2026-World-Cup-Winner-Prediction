@@ -35,7 +35,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
             const colW = idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80;
             const colX = bp.roundX[idx];
             return (
-              <div key={r} className="absolute h-full border-r border-white/5 last:border-r"
+              <div key={r} className="absolute h-full border-x border-white/5"
                 style={{ left: colX, width: colW }}>
                 <div className="text-center py-2">
                   <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{ROUND_LABELS[r]}</span>
