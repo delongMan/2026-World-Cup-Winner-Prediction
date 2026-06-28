@@ -21,6 +21,7 @@ html {
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
   background: var(--bg);
+  min-height: 100%;
 }
 
 body {
@@ -29,6 +30,8 @@ body {
   -webkit-font-smoothing: antialiased;
   padding-left: var(--safe-left);
   padding-right: var(--safe-right);
+  background: transparent;
+  min-height: 100vh;
 }
 
 body::before {

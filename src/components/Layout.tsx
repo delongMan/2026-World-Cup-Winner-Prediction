@@ -30,7 +30,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const setLang = usePredictionStore(s => s.setLang);
 
   return (
-    <div className="min-h-dvh bg-[#060b14] text-white flex flex-col">
+    <div className="bg-[#060b14] text-white">
       <header className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-3 bg-[#060b14] fixed top-0 left-0 w-full z-50 gap-2">
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <span className="text-xl sm:text-2xl">🏆</span>
@@ -65,7 +65,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <ExportButton />
         </div>
       </header>
-      <main id="prediction-content" className="flex-1 pt-11 sm:pt-14">{children}</main>
+      <main id="prediction-content" className="pt-11 sm:pt-14">{children}</main>
     </div>
   );
 }
