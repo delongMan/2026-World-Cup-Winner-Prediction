@@ -31,7 +31,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="bg-[#060b14] text-white min-w-max">
-      <header className="flex items-center justify-between pl-3 sm:pl-6 pr-1.5 sm:pr-3 py-2 sm:py-3 bg-[#060b14] fixed top-0 left-0 right-0 z-50 gap-1 sm:gap-2" style={{ width: '100vw' }}>
+      <header className="flex items-center justify-between pl-3 sm:pl-6 pr-1.5 sm:pr-3 py-2 sm:py-3 bg-[#060b14] fixed top-0 left-0 right-0 z-50 gap-1 sm:gap-2">
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <span className="text-xl sm:text-2xl">🏆</span>
           <div className="hidden sm:block">
