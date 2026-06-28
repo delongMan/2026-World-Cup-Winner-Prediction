@@ -26,20 +26,19 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
 
   return (
     <div className="bg-[#060b14]">
-      {/* Bracket body */}
-      <div id="bracket-body" className="mx-auto pt-0 px-8 pb-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
-        <div className="relative" style={{ width: bounds.totalW, height: bounds.totalH }}>
-        {/* Column dividers — full height, titles at top */}
-        <div className="absolute top-0 left-0 flex h-full pointer-events-none z-10" style={{ width: bounds.totalW }}>
-          {ROUND_ORDER.map((r, idx) => (
-            <div key={r} className="shrink-0 border-r border-white/5 last:border-r" style={{ width: idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80 }}>
-              <div className="text-center py-2">
-                <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{ROUND_LABELS[r]}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Round headers */}
+      <div className="flex bg-[#060b14] min-w-max mx-auto" style={{ width: bounds.totalW, paddingLeft: bp.gap / 2 }}>
+        {ROUND_ORDER.map((r, idx) => (
+          <div key={r} className="text-center py-2 shrink-0 border-r border-white/5 last:border-r"
+            style={{ width: idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80 }}>
+            <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{ROUND_LABELS[r]}</span>
+          </div>
+        ))}
+      </div>
 
+      {/* Bracket body */}
+      <div id="bracket-body" className="mx-auto pt-4 px-8 pb-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
+        <div className="relative" style={{ width: bounds.totalW, height: bounds.totalH }}>
         <svg className="absolute inset-0 pointer-events-none z-0" width={bounds.totalW} height={bounds.totalH}>
           <defs>
             <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="rgba(255,255,255,0.08)" /><stop offset="100%" stopColor="#34d399" /></linearGradient>
