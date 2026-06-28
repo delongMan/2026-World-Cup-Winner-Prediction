@@ -57,7 +57,9 @@ export function computeConnectors(all: KnockoutMatch[], layout: Map<string, Layo
       if (!tid) continue;
       const from = layout.get(m.id), to = layout.get(tid);
       if (!from || !to) continue;
-      res.push({ x1: from.x + from.w, y1: from.y + from.h / 2, x2: to.x, y2: to.y + to.h / 2, active: !!winners[m.id] });
+      // Adjust for MatchPair margin -15 / width +20:
+      // source right edge = from.x + from.w + 5, target left edge = to.x - 15
+      res.push({ x1: from.x + from.w + 5, y1: from.y + from.h / 2, x2: to.x - 15, y2: to.y + to.h / 2, active: !!winners[m.id] });
     }
   }
   return res;
