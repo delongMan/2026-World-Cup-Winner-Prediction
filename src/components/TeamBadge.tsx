@@ -37,7 +37,7 @@ export const TeamBadge = forwardRef<HTMLDivElement, TeamBadgeProps>(
       >
         <img
           src={team.flagUrl}
-          alt={team.name}
+          alt={team.name.en}
           className={`${s.flag} rounded-sm object-cover shadow-sm flex-shrink-0`}
           loading="lazy"
           onError={(e) => {
@@ -46,7 +46,7 @@ export const TeamBadge = forwardRef<HTMLDivElement, TeamBadgeProps>(
           }}
         />
         <span className="hidden">{team.flagEmoji}</span>
-        <span className="truncate max-w-[90px] leading-tight">{team.nameZh}</span>
+        <span className="truncate max-w-[90px] leading-tight">{team.name.zh}</span>
         {isWinner && <span className="text-[10px] ml-0.5">👑</span>}
       </div>
     );

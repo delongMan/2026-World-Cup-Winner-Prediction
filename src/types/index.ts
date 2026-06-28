@@ -4,12 +4,14 @@ export type KnockoutRound = 'round32' | 'round16' | 'quarter' | 'semi' | 'final'
 
 export type MatchStatus = 'upcoming' | 'live' | 'completed';
 
+export type Lang = 'en' | 'zh' | 'es' | 'fr' | 'de' | 'ja' | 'ko' | 'ar';
+
 export interface Team {
   id: string;
-  name: string;
-  nameZh: string;
   flagEmoji: string;
   flagUrl: string;
+  name: Record<Lang, string>;
+  group: string;
 }
 
 export interface MatchDate {

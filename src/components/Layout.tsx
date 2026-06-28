@@ -1,11 +1,25 @@
 import { usePredictionStore } from '../store/usePredictionStore';
 import { ExportButton } from './ExportButton';
 import type { ReactNode } from 'react';
+import type { Lang } from '../types';
+
+const LANG_OPTS: { key: Lang; label: string }[] = [
+  { key: 'en', label: 'EN' },
+  { key: 'zh', label: '中文' },
+  { key: 'es', label: 'ES' },
+  { key: 'fr', label: 'FR' },
+  { key: 'de', label: 'DE' },
+  { key: 'ja', label: '日本語' },
+  { key: 'ko', label: '한국어' },
+  { key: 'ar', label: 'العربية' },
+];
 
 export function Layout({ children }: { children: ReactNode }) {
   const resetAll = usePredictionStore(s => s.resetAll);
   const isLocked = usePredictionStore(s => s.isLocked);
   const toggleLock = usePredictionStore(s => s.toggleLock);
+  const lang = usePredictionStore(s => s.lang);
+  const setLang = usePredictionStore(s => s.setLang);
 
   return (
     <div className="min-h-screen bg-[#060b14] text-white flex flex-col">
@@ -13,13 +27,23 @@ export function Layout({ children }: { children: ReactNode }) {
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <span className="text-xl sm:text-2xl">🏆</span>
           <div className="hidden sm:block">
-            <h1 className="text-xs sm:text-sm font-bold text-white/90 tracking-wide">2026 FIFA World Cup</h1>
-            <p className="text-[10px] text-white/30">Knockout Stage · 淘汰赛预测</p>
+            <h1 className="text-xs sm:text-sm font-bold text-white/90 tracking-wide">FIFA World Cup 2026</h1>
+            <p className="text-[10px] text-white/30">Knockout Stage</p>
           </div>
-          <span className="sm:hidden text-xs font-bold text-white/80">世界杯预测</span>
+          <span className="sm:hidden text-xs font-bold text-white/80">WC2026</span>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          <span className="hidden lg:inline text-[10px] text-white/25">点击或拖动队伍卡片晋级</span>
+          {/* Language switcher */}
+          <select
+            value={lang}
+            onChange={e => setLang(e.target.value as Lang)}
+            className="bg-transparent text-[10px] sm:text-[11px] text-white/50 border border-white/10 rounded-lg px-1.5 py-1 outline-none cursor-pointer hover:border-white/20"
+          >
+            {LANG_OPTS.map(o => (
+              <option key={o.key} value={o.key} className="bg-[#111827] text-white">{o.label}</option>
+            ))}
+          </select>
+          <span className="hidden lg:inline text-[10px] text-white/25">点击或拖动晋级</span>
           <button onClick={resetAll}
             className="px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-[11px] font-medium text-white/40 hover:text-red-400 rounded-lg sm:rounded-xl ring-1 ring-white/10 hover:ring-red-400/30 transition-all duration-200">
             重置

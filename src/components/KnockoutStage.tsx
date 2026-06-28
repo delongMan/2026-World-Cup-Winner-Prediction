@@ -12,6 +12,7 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
   const knockoutWinners = usePredictionStore(s => s.knockoutWinners);
   const [activeTeam, setActiveTeam] = useState<Team | null>(null);
   const [highlightId, setHighlightId] = useState<string | null>(null);
+  const lang = usePredictionStore(s => s.lang);
   const bp = useBreakpoint();
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
@@ -56,7 +57,7 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
             <img src={activeTeam.flagUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
             <div className="absolute inset-x-0 bottom-2 flex justify-center">
-              <p className="font-bold text-white drop-shadow-lg" style={{ fontSize: bp.fs - 1 }}>{activeTeam.nameZh}</p>
+              <p className="font-bold text-white drop-shadow-lg" style={{ fontSize: bp.fs - 1 }}>{(activeTeam.name as Record<string,string>)[lang] || activeTeam.name.en}</p>
             </div>
           </div>
         ) : null}

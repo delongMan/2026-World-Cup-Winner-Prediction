@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PredictionState, Team, Stage, KnockoutMatch, MatchStatus } from '../types';
+import type { PredictionState, Team, Stage, KnockoutMatch, MatchStatus, Lang } from '../types';
 import { getTeamById } from '../constants/teams';
 import { generateBracket, getMatchById } from '../utils/bracket';
 
@@ -7,6 +7,8 @@ interface StoreState extends PredictionState {
   bracket: KnockoutMatch[];
   isLocked: boolean;
   toggleLock: () => void;
+  lang: Lang;
+  setLang: (l: Lang) => void;
 }
 
 function cascadeClear(winners: Record<string, string>, bracket: KnockoutMatch[], fromId: string | null): void {
@@ -57,8 +59,10 @@ export const usePredictionStore = create<StoreState>((set, get) => ({
   currentStage: 'round32',
   bracket: baseBracket,
   isLocked: false,
+  lang: 'en',
 
   toggleLock: () => set(state => ({ isLocked: !state.isLocked })),
+  setLang: (l: Lang) => set({ lang: l }),
 
   setKnockoutWinner: (matchId: string, teamId: string) =>
     set(state => {
