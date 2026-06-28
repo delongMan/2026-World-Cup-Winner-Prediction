@@ -2,6 +2,8 @@
 
 An interactive web app for predicting the 2026 FIFA World Cup knockout stage champion. Features drag-and-drop and click operations with CS:GO Major-style team cards and animations.
 
+> **Download**: [2026-World-Cup-Winner-Prediction.html](./2026-World-Cup-Winner-Prediction.html) — 单文件打包版，下载后直接双击在浏览器打开 | Standalone single-file build, open directly in browser.
+
 ![Preview](public/preview.png)
 
 ## Live Demo
@@ -97,6 +99,8 @@ MIT License
 # 2026 世界杯冠军预测
 
 预测 2026 世界杯淘汰赛冠军的交互式 Web 应用。支持拖拽和点击操作，CS:GO Major 风格的战队卡片与动画效果。
+
+> **下载**：[2026-World-Cup-Winner-Prediction.html](./2026-World-Cup-Winner-Prediction.html) — 单文件打包版，下载后直接双击在浏览器打开。
 
 ![Preview](public/preview.png)
 
