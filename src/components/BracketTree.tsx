@@ -25,9 +25,9 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
   }, [allMatches, getTeam]);
 
   return (
-    <div>
+    <div className="bg-[#060b14]">
       {/* Round headers */}
-      <div className="flex bg-[#060b14]/95 backdrop-blur-md min-w-max mx-auto" style={{ width: bounds.totalW }}>
+      <div className="flex bg-[#060b14] min-w-max mx-auto" style={{ width: bounds.totalW }}>
         {ROUND_ORDER.map((r, idx) => (
           <div key={r} className="text-center py-2 shrink-0 border-r border-white/5"
             style={{ width: idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80 }}>
