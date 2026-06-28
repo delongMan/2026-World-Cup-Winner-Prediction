@@ -27,7 +27,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
   return (
     <div>
       {/* Round headers */}
-      <div className="sticky top-12 sm:top-14 z-30 flex bg-[#060b14]/95 backdrop-blur-md border-b border-white/5 min-w-max mx-auto" style={{ width: bounds.totalW }}>
+      <div className="sticky top-11 sm:top-14 z-30 flex bg-[#060b14]/95 backdrop-blur-md min-w-max mx-auto" style={{ width: bounds.totalW }}>
         {ROUND_ORDER.map((r, idx) => (
           <div key={r} className="text-center py-2 shrink-0 border-r border-white/5"
             style={{ width: idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80 }}>
@@ -37,7 +37,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
       </div>
 
       {/* Bracket body */}
-      <div id="bracket-body" className="mx-auto p-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
+      <div id="bracket-body" className="mx-auto pt-0 px-8 pb-8" style={{ width: bounds.totalW + 64, height: bounds.totalH + 64 }}>
         <div className="relative" style={{ width: bounds.totalW, height: bounds.totalH }}>
         <svg className="absolute inset-0 pointer-events-none z-0" width={bounds.totalW} height={bounds.totalH}>
           <defs>
