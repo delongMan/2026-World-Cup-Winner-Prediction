@@ -1,6 +1,102 @@
 # 2026 World Cup Winner Prediction
 
-预测 2026 世界杯淘汰赛冠军的交互式 Web 应用。支持拖拽和点击操作，模拟 CS:GO Major 风格的战队卡片与动画效果。
+An interactive web app for predicting the 2026 FIFA World Cup knockout stage champion. Features drag-and-drop and click operations with CS:GO Major-style team cards and animations.
+
+![Preview](public/preview.png)
+
+## Live Demo
+
+> Add deployment link here
+
+## Features
+
+- **Round of 32**: Based on the official FIFA 2026 World Cup knockout bracket
+- **Drag & Click**: Click to select in R32, drag to advance from R16 onward
+- **Auto Advance**: Drag anywhere — auto-highlights the next valid target
+- **Cascade Gray**: Eliminated winners turn gray in previous rounds
+- **Champion Gold**: Final winner gets a gold border and crown badge
+- **Lock / Reset**: Freeze predictions for sharing, one-click reset
+- **Export PNG**: Download bracket as high-quality (2x) PNG image
+- **16 Languages**: 简体中文、繁體中文、English、Español、Português、Français、Deutsch、Nederlands、Italiano、Svenska、Norsk、Hrvatski、Bosanski、日本語、한국어、العربية
+- **Timezone**: Match times auto-convert to local timezone
+- **Responsive**: Works on mobile, tablet, and desktop
+
+## Tech Stack
+
+| Technology | Usage |
+|------------|-------|
+| React 18 + TypeScript | Frontend framework |
+| Vite | Build tool |
+| Tailwind CSS | Styling |
+| @dnd-kit/core | Drag and drop |
+| Framer Motion | Animations |
+| Zustand | State management |
+| html-to-image | Screenshot export |
+| flagcdn.com | National flag images |
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── main.tsx              # Entry point
+├── App.tsx               # Root component
+├── index.css             # Tailwind + global styles
+├── constants/
+│   └── teams.ts          # 32 knockout teams (flags, names, 16 languages)
+├── types/
+│   └── index.ts          # TypeScript type definitions
+├── store/
+│   └── usePredictionStore.ts  # Zustand global state
+├── utils/
+│   ├── bracket.ts        # FIFA 2026 official knockout bracket
+│   └── exportImage.ts    # html-to-image PNG export
+└── components/
+    ├── Layout.tsx         # Header (reset, lock, export, language)
+    ├── BracketTree.tsx    # SVG connectors + match card grid
+    ├── KnockoutStage.tsx  # DndContext + drag/click handlers
+    ├── MatchNode.tsx      # Match card pair (React.memo)
+    ├── TeamCard.tsx       # Single team card (flag bg, win/lose status)
+    ├── TeamBadge.tsx      # Inline team badge
+    ├── ExportButton.tsx   # Export PNG button
+    ├── bracketLayout.ts  # Layout engine (X/Y, connectors, bounds)
+    └── breakpoint.ts     # Responsive breakpoint detection
+```
+
+## Contributing
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/xxx`)
+3. Commit your changes (`git commit -m 'feat: xxx'`)
+4. Push to the branch (`git push origin feature/xxx`)
+5. Open a Pull Request
+
+All PRs must pass security scan and code review before merging. See [SECURITY.md](./SECURITY.md).
+
+## License
+
+MIT License
+
+---
+
+# 2026 世界杯冠军预测
+
+预测 2026 世界杯淘汰赛冠军的交互式 Web 应用。支持拖拽和点击操作，CS:GO Major 风格的战队卡片与动画效果。
 
 ![Preview](public/preview.png)
 
@@ -11,13 +107,13 @@
 ## 功能
 
 - **32 强淘汰赛**：基于 FIFA 官方 2026 世界杯淘汰赛对阵表
-- **拖拽+点击**：32 强阶段点击选择，16 强后支持拖拽晋级
+- **拖拽 + 点击**：32 强阶段点击选择，16 强后支持拖拽晋级
 - **自动推进**：拖拽至任意位置，自动高亮下一个目标
-- **级联置灰**：淘汰的晋级者在之前的轮次中变为灰色
+- **级联置灰**：淘汰的晋级者在之前轮次中变为灰色
 - **冠军特效**：最终冠军获得金色边框和皇冠徽章
-- **锁定/重置**：冻结所有选择以截图分享，一键清空预测
+- **锁定 / 重置**：冻结选择以截图分享，一键清空预测
 - **导出 PNG**：2 倍清晰度导出对阵表图片
-- **16 语言**：简体中文、繁體中文、English、Español、Português、Français、Deutsch、Nederlands、Italiano、Svenska、Norsk、Hrvatski、Bosanski、日本語、한국어、العربية
+- **16 种语言**：简体中文、繁體中文、English、Español、Português、Français、Deutsch、Nederlands、Italiano、Svenska、Norsk、Hrvatski、Bosanski、日本語、한국어、العربية
 - **时区转换**：比赛时间自动转换为本地时区
 - **响应式布局**：适配手机、平板、桌面端
 
