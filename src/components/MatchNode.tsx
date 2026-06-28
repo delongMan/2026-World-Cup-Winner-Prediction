@@ -2,22 +2,39 @@ import { useDroppable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import type { KnockoutMatch, Team } from '../types';
 import { TeamCard } from './TeamCard';
+import { usePredictionStore } from '../store/usePredictionStore';
 
 interface P { match: KnockoutMatch; team1: Team | null; team2: Team | null; isComplete: boolean; onTeamClick: (mid: string, t: Team | null) => void; }
 
 export function MatchPair({ match, team1, team2, isComplete, onTeamClick }: P) {
   const { setNodeRef, isOver } = useDroppable({ id: `match-${match.id}` });
+  const isLocked = usePredictionStore(s => s.isLocked);
+  const bracket = usePredictionStore(s => s.bracket);
 
   const hasBoth = !!(team1 && team2);
   const hasOne = !!(team1 || team2);
   const isEmpty = !hasOne;
+  const canInteract = hasBoth && !isComplete && !isLocked;
   const isR32 = match.round === 'round32';
-  const canInteract = hasBoth && !isComplete;
   const canDrag = canInteract && !isR32;
+  const isFinal = match.round === 'final';
+
+  // Winner eliminated later?
+  const winnerTeam = match.winnerId ? (team1?.id === match.winnerId ? team1 : team2) : null;
+  const eliminatedLater: boolean = !!winnerTeam && (() => {
+    let nextId: string | null = match.nextMatchId;
+    while (nextId) {
+      const nm = bracket.find(m => m.id === nextId);
+      if (!nm) break;
+      if (nm.winnerId) return nm.winnerId !== winnerTeam.id;
+      nextId = nm.nextMatchId;
+    }
+    return false;
+  })();
 
   const h1 = () => { if (canInteract && team1) onTeamClick(match.id, team1); };
   const h2 = () => { if (canInteract && team2) onTeamClick(match.id, team2); };
-  const hCancel = () => { if (isComplete) onTeamClick(match.id, null); };
+  const hCancel = () => { if (isComplete && !isLocked) onTeamClick(match.id, null); };
 
   return (
     <motion.div ref={setNodeRef} data-match-id={match.id}
@@ -32,22 +49,20 @@ export function MatchPair({ match, team1, team2, isComplete, onTeamClick }: P) {
       <div className="flex items-center justify-center gap-2">
         {isComplete ? (
           <div className="flex-shrink-0">
-            {match.winnerId && team1 && match.winnerId === team1.id
-              ? <TeamCard team={team1} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} canDrag={false} onClick={hCancel} />
-              : team2
-                ? <TeamCard team={team2} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} canDrag={false} onClick={hCancel} />
-                : null}
+            {winnerTeam
+              ? <TeamCard team={winnerTeam} matchId={match.id} isWinner={!eliminatedLater} isLoser={eliminatedLater} isChampion={isFinal && !eliminatedLater} canInteract={!isLocked} canDrag={false} onClick={hCancel} />
+              : null}
           </div>
         ) : (
           <>
             <div className="flex-shrink-0">
               {team1
-                ? <TeamCard team={team1} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} canDrag={canDrag} onClick={h1} />
+                ? <TeamCard team={team1} matchId={match.id} isWinner={false} isLoser={false} isChampion={false} canInteract={canInteract} canDrag={canDrag} onClick={h1} />
                 : <div className="w-[88px] h-[72px] rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]"><span className="text-[10px] text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
             <div className="flex-shrink-0">
               {team2
-                ? <TeamCard team={team2} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} canDrag={canDrag} onClick={h2} />
+                ? <TeamCard team={team2} matchId={match.id} isWinner={false} isLoser={false} isChampion={false} canInteract={canInteract} canDrag={canDrag} onClick={h2} />
                 : <div className="w-[88px] h-[72px] rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]"><span className="text-[10px] text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
           </>

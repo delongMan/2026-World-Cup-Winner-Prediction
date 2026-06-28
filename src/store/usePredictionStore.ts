@@ -5,6 +5,8 @@ import { generateBracket, getMatchById } from '../utils/bracket';
 
 interface StoreState extends PredictionState {
   bracket: KnockoutMatch[];
+  isLocked: boolean;
+  toggleLock: () => void;
 }
 
 function cascadeClear(winners: Record<string, string>, bracket: KnockoutMatch[], fromId: string | null): void {
@@ -25,12 +27,10 @@ function findTeam(
   if (!src || !src.matchId) return null;
   const m = getMatchById(bracket, src.matchId);
   if (!m) return null;
-
   if (src.type === 'loser') {
     if (!m.winnerId || !m.team1Id || !m.team2Id) return null;
     return getTeamById(m.winnerId === m.team1Id ? m.team2Id : m.team1Id) || null;
   }
-
   const wid = winners[src.matchId];
   if (wid) return getTeamById(wid) || null;
   return null;
@@ -56,6 +56,9 @@ export const usePredictionStore = create<StoreState>((set, get) => ({
   knockoutWinners: {},
   currentStage: 'round32',
   bracket: baseBracket,
+  isLocked: false,
+
+  toggleLock: () => set(state => ({ isLocked: !state.isLocked })),
 
   setKnockoutWinner: (matchId: string, teamId: string) =>
     set(state => {
@@ -95,13 +98,6 @@ export const usePredictionStore = create<StoreState>((set, get) => ({
 
   getMatchStatus: (match: KnockoutMatch): MatchStatus => {
     if (match.winnerId) return 'completed';
-    if (match.team1Id && match.team2Id && match.round === 'round32') {
-      // Check if match date has passed
-      const now = new Date();
-      // Simple check: R32 matches before 6/29 are completed, after are upcoming
-      // For now, just mark R32-1 (6/28) as potentially completed
-      return 'upcoming';
-    }
     return 'upcoming';
   },
 }));
