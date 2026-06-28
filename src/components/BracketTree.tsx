@@ -29,7 +29,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
       {/* Round headers */}
       <div className="flex bg-[#060b14] min-w-max mx-auto" style={{ width: bounds.totalW }}>
         {ROUND_ORDER.map((r, idx) => (
-          <div key={r} className="text-center py-2 shrink-0 border-r border-white/5"
+          <div key={r} className="text-center py-2 shrink-0 border-r border-white/5 last:border-r"
             style={{ width: idx < ROUND_ORDER.length - 1 ? bp.matchW + bp.gap : bp.matchW + 80 }}>
             <span className="font-semibold text-white/40 tracking-widest uppercase" style={{ fontSize: bp.fs }}>{ROUND_LABELS[r]}</span>
           </div>
@@ -45,6 +45,12 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlig
             <filter id="gl"><feGaussianBlur stdDeviation="2" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
           <g fill="none">
+            {/* Vertical lane lines */}
+            {bp.roundX.slice(1).map((x, i) => (
+              <line key={`vl${i}`} x1={x} y1={0} x2={x} y2={bounds.totalH} stroke="rgba(255,255,255,0.06)" strokeWidth={1} strokeDasharray="4 8" />
+            ))}
+            <line x1={bp.roundX[4] + bp.matchW + 80} y1={0} x2={bp.roundX[4] + bp.matchW + 80} y2={bounds.totalH} stroke="rgba(255,255,255,0.06)" strokeWidth={1} strokeDasharray="4 8" />
+            {/* Connectors */}
             {conns.map((c, i) => {
               const mx = (c.x1 + c.x2) / 2;
               const oy = -bounds.minY + 16;

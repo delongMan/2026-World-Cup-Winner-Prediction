@@ -8,7 +8,7 @@ export interface Connector { x1: number; y1: number; x2: number; y2: number; act
 
 const rx = (bp: BpSize, r: KnockoutRound): number => {
   const i = ROUND_ORDER.indexOf(r);
-  return bp.roundX[i] ?? bp.roundX[bp.roundX.length - 1];
+  return (bp.roundX[i] ?? bp.roundX[bp.roundX.length - 1]) + bp.gap / 2;
 };
 
 export function computeLayout(allMatches: KnockoutMatch[], bp: BpSize): Map<string, LayoutNode> {
@@ -68,5 +68,5 @@ export function computeBounds(layout: Map<string, LayoutNode>) {
   const minY = Math.min(...ns.map(n => n.y));
   const maxY = Math.max(...ns.map(n => n.y + n.h));
   const maxX = Math.max(...ns.map(n => n.x + n.w));
-  return { minY, maxY, maxX, totalW: maxX + 40, totalH: maxY - minY + 40 };
+  return { minY, maxY, maxX, totalW: maxX + 80, totalH: maxY - minY + 40 };
 }
