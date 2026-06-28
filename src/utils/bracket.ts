@@ -123,11 +123,11 @@ export function getMatchById(matches: KnockoutMatch[], id: string): KnockoutMatc
 }
 
 const ROUND_LABELS_I18N: Record<KnockoutRound, Record<Lang, string>> = {
-  round32: { en: 'Round of 32', 'zh-CN': '32强', 'zh-TW': '32強', es: 'Dieciseisavos', fr: '16es de finale', de: 'Runde der 32', ja: 'ラウンド32', ko: '32강', ar: 'دور الـ32', pt: '16 avos', nl: 'Ronde van 32', it: 'Sedicesimi', sv: '32-delsfinal', hr: '32-ina finala', no: '32-delsfinale', bs: '32-ina finala' },
-  round16: { en: 'Round of 16', 'zh-CN': '16强', 'zh-TW': '16強', es: 'Octavos', fr: '8es de finale', de: 'Achtelfinale', ja: 'ラウンド16', ko: '16강', ar: 'دور الـ16', pt: 'Oitavas', nl: 'Achtste finale', it: 'Ottavi', sv: 'Åttondelsfinal', hr: 'Osmina finala', no: 'Åttendedelsfinale', bs: 'Osmina finala' },
-  quarter: { en: 'Quarter-finals', 'zh-CN': '四分之一决赛', 'zh-TW': '四分之一決賽', es: 'Cuartos', fr: 'Quarts de finale', de: 'Viertelfinale', ja: '準々決勝', ko: '8강', ar: 'ربع النهائي', pt: 'Quartas', nl: 'Kwartfinale', it: 'Quarti', sv: 'Kvartsfinal', hr: 'Četvrtfinale', no: 'Kvartfinale', bs: 'Četvrtfinale' },
+  round32: { en: 'Last 16', 'zh-CN': '16强', 'zh-TW': '16強', es: 'Dieciseisavos', fr: '16es', de: 'Letzte 16', ja: 'ベスト16', ko: '16강', ar: 'دور الـ16', pt: '16 avos', nl: 'Laatste 16', it: 'Sedicesimi', sv: '16-delsfinal', hr: '16-ina', no: '16-dels', bs: '16-ina' },
+  round16: { en: 'Last 8', 'zh-CN': '8强', 'zh-TW': '8強', es: 'Octavos', fr: '8es', de: 'Letzte 8', ja: 'ベスト8', ko: '8강', ar: 'دور الـ8', pt: 'Oitavas', nl: 'Laatste 8', it: 'Ottavi', sv: '8-delsfinal', hr: '8-ina', no: '8-dels', bs: '8-ina' },
+  quarter: { en: 'Last 4', 'zh-CN': '4强', 'zh-TW': '4強', es: 'Cuartos', fr: '4es', de: 'Letzte 4', ja: 'ベスト4', ko: '4강', ar: 'دور الـ4', pt: 'Quartas', nl: 'Laatste 4', it: 'Quarti', sv: '4-delsfinal', hr: '4-ina', no: '4-dels', bs: '4-ina' },
   semi:    { en: 'Semi-finals', 'zh-CN': '半决赛', 'zh-TW': '半決賽', es: 'Semifinales', fr: 'Demi-finales', de: 'Halbfinale', ja: '準決勝', ko: '준결승', ar: 'نصف النهائي', pt: 'Semifinais', nl: 'Halve finale', it: 'Semifinali', sv: 'Semifinal', hr: 'Polufinale', no: 'Semifinale', bs: 'Polufinale' },
-  final:   { en: 'Final', 'zh-CN': '决赛', 'zh-TW': '決賽', es: 'Final', fr: 'Finale', de: 'Finale', ja: '決勝', ko: '결승', ar: 'النهائي', pt: 'Final', nl: 'Finale', it: 'Finale', sv: 'Final', hr: 'Finale', no: 'Finale', bs: 'Finale' },
+  final:   { en: 'Grand Final', 'zh-CN': '总决赛', 'zh-TW': '總決賽', es: 'Gran Final', fr: 'Grande Finale', de: 'Finale', ja: '決勝戦', ko: '결승전', ar: 'النهائي الكبير', pt: 'Grande Final', nl: 'Grote Finale', it: 'Gran Finale', sv: 'Final', hr: 'Finale', no: 'Finale', bs: 'Finale' },
 };
 
 export function getRoundLabel(round: KnockoutRound, lang: Lang): string {
