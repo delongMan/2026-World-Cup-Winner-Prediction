@@ -1,4 +1,4 @@
-import { DndContext, DragOverlay, closestCenter, type DragStartEvent, type DragEndEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCenter, type DragStartEvent, type DragEndEvent, type DragCancelEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { useState, useCallback } from 'react';
 import { usePredictionStore } from '../store/usePredictionStore';
 import { BracketTree } from './BracketTree';
@@ -48,8 +48,13 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
     setHighlightId(null);
   }, [setKnockoutWinner, highlightId]);
 
+  const handleDragCancel = useCallback(() => {
+    setActiveTeam(null);
+    setHighlightId(null);
+  }, []);
+
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDragCancel={handleDragCancel}>
       <div className="p-3">
         <BracketTree allMatches={allMatches} getTeam={getMatchTeams} winners={knockoutWinners} onTeamClick={handleTeamClick} highlightId={highlightId} />
       </div>
