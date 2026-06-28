@@ -40,10 +40,11 @@ function regenerate(base: KnockoutMatch[], winners: Record<string, string>): Kno
   return base.map(match => {
     const team1 = findTeam(match.source1, winners, base);
     const team2 = findTeam(match.source2, winners, base);
+    const isR32 = match.round === 'round32';
     return {
       ...match,
-      team1Id: team1 ? team1.id : match.team1Id,
-      team2Id: team2 ? team2.id : match.team2Id,
+      team1Id: team1 ? team1.id : (isR32 ? match.team1Id : null),
+      team2Id: team2 ? team2.id : (isR32 ? match.team2Id : null),
       winnerId: winners[match.id] || null,
     };
   });

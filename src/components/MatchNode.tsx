@@ -11,7 +11,9 @@ export function MatchPair({ match, team1, team2, isComplete, onTeamClick }: P) {
   const hasBoth = !!(team1 && team2);
   const hasOne = !!(team1 || team2);
   const isEmpty = !hasOne;
+  const isR32 = match.round === 'round32';
   const canInteract = hasBoth && !isComplete;
+  const canDrag = canInteract && !isR32;
 
   const h1 = () => { if (canInteract && team1) onTeamClick(match.id, team1); };
   const h2 = () => { if (canInteract && team2) onTeamClick(match.id, team2); };
@@ -31,21 +33,21 @@ export function MatchPair({ match, team1, team2, isComplete, onTeamClick }: P) {
         {isComplete ? (
           <div className="flex-shrink-0">
             {match.winnerId && team1 && match.winnerId === team1.id
-              ? <TeamCard team={team1} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} onClick={hCancel} />
+              ? <TeamCard team={team1} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} canDrag={false} onClick={hCancel} />
               : team2
-                ? <TeamCard team={team2} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} onClick={hCancel} />
+                ? <TeamCard team={team2} matchId={match.id} isWinner={true} isLoser={false} canInteract={true} canDrag={false} onClick={hCancel} />
                 : null}
           </div>
         ) : (
           <>
             <div className="flex-shrink-0">
               {team1
-                ? <TeamCard team={team1} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} onClick={h1} />
+                ? <TeamCard team={team1} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} canDrag={canDrag} onClick={h1} />
                 : <div className="w-[88px] h-[72px] rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]"><span className="text-[10px] text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
             <div className="flex-shrink-0">
               {team2
-                ? <TeamCard team={team2} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} onClick={h2} />
+                ? <TeamCard team={team2} matchId={match.id} isWinner={false} isLoser={false} canInteract={canInteract} canDrag={canDrag} onClick={h2} />
                 : <div className="w-[88px] h-[72px] rounded-2xl ring-1 ring-white/5 flex items-center justify-center bg-white/[0.01]"><span className="text-[10px] text-white/20">{isEmpty ? '待开赛' : '待定'}</span></div>}
             </div>
           </>
@@ -54,7 +56,7 @@ export function MatchPair({ match, team1, team2, isComplete, onTeamClick }: P) {
       <div className="flex items-center justify-between mt-2.5 px-1">
         <span className="text-[10px] text-white/25 font-medium tracking-wider">{match.label}</span>
         <span className={`text-[10px] font-medium ${isComplete ? 'text-emerald-400' : hasBoth ? 'text-amber-300/60' : 'text-white/20'}`}>
-          {isComplete ? '✓' : hasBoth ? '● 点击/拖拽' : '○'} {match.matchDate?.date} {match.matchDate?.time}
+          {isComplete ? '✓' : canDrag ? '● 点击/拖拽' : hasBoth ? '● 点击晋级' : '○'} {match.matchDate?.date} {match.matchDate?.time}
         </span>
       </div>
       {isComplete && (

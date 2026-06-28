@@ -4,14 +4,14 @@ import type { Team } from '../types';
 
 interface P {
   team: Team; matchId: string; isWinner: boolean; isLoser: boolean;
-  canInteract: boolean; onClick?: () => void;
+  canInteract: boolean; canDrag: boolean; onClick?: () => void;
 }
 
-export function TeamCard({ team, matchId, isWinner, isLoser, canInteract, onClick }: P) {
+export function TeamCard({ team, matchId, isWinner, isLoser, canInteract, canDrag, onClick }: P) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `team-${team.id}-from-${matchId}`,
     data: { team, sourceMatchId: matchId },
-    disabled: !canInteract,
+    disabled: !canDrag,
   });
 
   const style = transform
@@ -23,7 +23,7 @@ export function TeamCard({ team, matchId, isWinner, isLoser, canInteract, onClic
   return (
     <motion.div
       ref={setNodeRef} style={style}
-      {...(canInteract ? { ...listeners, ...attributes } : {})}
+      {...(canDrag ? { ...listeners, ...attributes } : {})}
       onClick={(e) => { if (clickable && onClick) { e.stopPropagation(); onClick(); } }}
       whileHover={clickable ? { scale: 1.04, y: -2 } : {}}
       whileTap={clickable ? { scale: 0.97 } : {}}
@@ -34,9 +34,11 @@ export function TeamCard({ team, matchId, isWinner, isLoser, canInteract, onClic
           ? 'rounded-2xl ring-2 ring-emerald-400/60 shadow-[0_0_24px_rgba(52,211,153,0.35)] scale-[1.03] z-10 cursor-pointer'
           : isLoser
             ? 'rounded-2xl ring-1 ring-white/5 opacity-30 scale-95 saturate-0'
-            : canInteract
+            : canDrag
               ? 'rounded-2xl ring-1 ring-white/10 bg-white/[0.04] hover:ring-accent-gold/30 hover:bg-white/[0.08] cursor-grab active:cursor-grabbing'
-              : 'rounded-2xl ring-1 ring-white/5 bg-white/[0.02]'}
+              : canInteract
+                ? 'rounded-2xl ring-1 ring-white/10 bg-white/[0.04] hover:ring-accent-gold/30 hover:bg-white/[0.08] cursor-pointer'
+                : 'rounded-2xl ring-1 ring-white/5 bg-white/[0.02]'}
       `}
     >
       <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: `url(${team.flagUrl})` }} />
