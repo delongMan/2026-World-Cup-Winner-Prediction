@@ -54,7 +54,7 @@ export const MatchPair = memo(function MatchPair({ match, team1, team2, isComple
     <motion.div
       initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }}
       className="flex items-center justify-center"
-      style={{ width: matchW + 20, height: cardH + 30, margin: -15 }}>
+      style={{ width: matchW, height: cardH, margin: '0 auto' }}>
       <div ref={setNodeRef} className="absolute inset-0 z-0" />
       <motion.div data-match-id={match.id}
         className={`relative z-10 flex-shrink-0 transition-all duration-200 ease-out overflow-hidden
