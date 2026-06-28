@@ -77,6 +77,8 @@ src/
 - **Cancel**: click completed winner to undo
 - **16 languages**: full i18n for teams, rounds, and UI text
 - **Timezone**: match times auto-convert to local timezone
+- **Touch drag**: TouchSensor with 200ms delay for mobile/tablet
+- **Pinch zoom**: minimum-scale=0.2, full bracket visible on one screen
 - **Standalone HTML**: `2026-World-Cup-Winner-Prediction.html` — single-file build, open in browser directly
 
 ## Bracket Data
