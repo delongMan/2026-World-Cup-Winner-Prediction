@@ -1,0 +1,62 @@
+name: Security Scan
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for suspicious patterns
+        run: |
+          echo "::group::Checking for obfuscated/minified code in PR diff"
+          git diff origin/master...HEAD -- '*.js' '*.ts' '*.tsx' '*.jsx' > /tmp/diff.txt
+
+          DANGER=0
+
+          # Check for eval with encoded strings
+          if grep -qP '(eval|Function|setTimeout|setInterval)\s*\(\s*(atob|btoa|String\.fromCharCode|[^a-zA-Z]?0x)' /tmp/diff.txt 2>/dev/null; then
+            echo "::error:: Detected suspicious eval/obfuscation pattern"
+            DANGER=1
+          fi
+
+          # Check for hidden iframes or script injection
+          if grep -qP '(document\.write|innerHTML\s*=.*<script|createElement\s*\(\s*['\''\"]script)' /tmp/diff.txt 2>/dev/null; then
+            echo "::error:: Detected potential XSS/script injection"
+            DANGER=1
+          fi
+
+          # Check for crypto miners
+          if grep -qiP '(coinhive|cryptonight|\.miner|webminer|crypto-loot)' /tmp/diff.txt 2>/dev/null; then
+            echo "::error:: Detected crypto miner reference"
+            DANGER=1
+          fi
+
+          # Check for exfiltration endpoints
+          if grep -qP '(fetch|XMLHttpRequest|navigator\.sendBeacon)\s*\(.*(webhook|hook\.|discord\.com/api|telegram\.org/bot|requestbin|hookbin|pipetouch)' /tmp/diff.txt 2>/dev/null; then
+            echo "::error:: Detected potential data exfiltration endpoint"
+            DANGER=1
+          fi
+
+          # Check for base64 encoded payloads (min length to avoid false positives)
+          if grep -qP '[A-Za-z0-9+/]{200,}={0,2}' /tmp/diff.txt 2>/dev/null; then
+            echo "::warning:: Long base64 string detected - please review manually"
+          fi
+
+          # Check for new dependencies
+          if git diff origin/master...HEAD -- package.json | grep -qP '^\+\s+".*":'; then
+            echo "::warning:: New dependencies added - please review manually"
+          fi
+
+          if [ "$DANGER" -eq 1 ]; then
+            echo "::error:: Security scan FAILED - please review the flagged patterns above"
+            exit 1
+          fi
+
+          echo "::notice:: Security scan passed"
+          echo "::endgroup::"
