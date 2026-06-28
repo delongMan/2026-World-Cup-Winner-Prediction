@@ -50,11 +50,12 @@ src/
 - `master` — Initial stable release
 - `optimize-logic` — R32 click-only, cascade cancel fix
 - `optimize-layout` — Cascade gray effect, champion gold, lock button
-- `optimize-responsive` — Responsive layout, single body scroll, no inner scroll containers
+- `optimize-responsive` — Responsive layout, single body scroll, auto-advance drag
 
 ## Key Features
 - **R32**: click-only selection (no drag)
 - **R16+**: click or drag to advance
+- **Auto-advance drag**: drag anywhere, auto-advances to highlighted next target
 - **Cascade gray**: eliminated winners turn gray in prior rounds
 - **Champion gold**: final winner gets gold border + crown badge
 - **Lock**: freeze all selections for sharing/export

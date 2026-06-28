@@ -10,9 +10,10 @@ interface P {
   getTeam: (m: KnockoutMatch) => { team1: Team | null; team2: Team | null };
   winners: Record<string, string>;
   onTeamClick: (mid: string, t: Team | null) => void;
+  highlightId?: string | null;
 }
 
-export function BracketTree({ allMatches, getTeam, winners, onTeamClick }: P) {
+export function BracketTree({ allMatches, getTeam, winners, onTeamClick, highlightId }: P) {
   const bp = useBreakpoint();
   const layout = useMemo(() => computeLayout(allMatches, bp), [allMatches, bp]);
   const conns = useMemo(() => computeConnectors(allMatches, layout, winners), [allMatches, layout, winners]);
@@ -74,7 +75,7 @@ export function BracketTree({ allMatches, getTeam, winners, onTeamClick }: P) {
           return (
             <div key={m.id} className="absolute z-10 animate-fade-up" data-match-id={m.id}
               style={{ left: node.x, top: node.y - bounds.minY + 16, width: node.w, height: node.h, animationDelay: `${i * 12}ms` }}>
-              <MatchPair match={m} team1={teams.team1} team2={teams.team2} isComplete={!!winners[m.id]} onTeamClick={onTeamClick} bp={bp} />
+              <MatchPair match={m} team1={teams.team1} team2={teams.team2} isComplete={!!winners[m.id]} onTeamClick={onTeamClick} bp={bp} highlightId={highlightId} />
             </div>
           );
         })}

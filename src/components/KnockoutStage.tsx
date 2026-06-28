@@ -11,6 +11,7 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
   const getMatchTeams = usePredictionStore(s => s.getMatchTeams);
   const knockoutWinners = usePredictionStore(s => s.knockoutWinners);
   const [activeTeam, setActiveTeam] = useState<Team | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
   const bp = useBreakpoint();
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }));
@@ -21,30 +22,32 @@ export function KnockoutStage({ allMatches }: { allMatches: KnockoutMatch[] }) {
     else removeKnockoutWinner(matchId);
   }, [setKnockoutWinner, removeKnockoutWinner]);
 
-  // Drag to advance
   const handleDragStart = useCallback((e: DragStartEvent) => {
     const t = e.active.data.current?.team as Team | undefined;
     if (t) setActiveTeam(t);
-  }, []);
+    // Find and highlight the valid target match
+    const src = e.active.data.current?.sourceMatchId as string | undefined;
+    if (src) {
+      const sm = allMatches.find(m => m.id === src);
+      if (sm?.nextMatchId) setHighlightId(sm.nextMatchId);
+      else if (sm?.nextLoserMatchId) setHighlightId(sm.nextLoserMatchId);
+    }
+  }, [allMatches]);
 
   const handleDragEnd = useCallback((e: DragEndEvent) => {
-    setActiveTeam(null);
-    const { active, over } = e;
-    if (!over) return;
-    const team = active.data.current?.team as Team | undefined;
-    const src = active.data.current?.sourceMatchId as string | undefined;
-    if (!team || !src) return;
-    const targetId = String(over.id).replace('match-', '');
-    const sm = allMatches.find(m => m.id === src);
-    if (sm?.nextMatchId === targetId || sm?.nextLoserMatchId === targetId) {
+    const team = e.active.data.current?.team as Team | undefined;
+    const src = e.active.data.current?.sourceMatchId as string | undefined;
+    if (team && src && highlightId) {
       setKnockoutWinner(src, team.id);
     }
-  }, [setKnockoutWinner, allMatches]);
+    setActiveTeam(null);
+    setHighlightId(null);
+  }, [setKnockoutWinner, highlightId]);
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="p-3">
-        <BracketTree allMatches={allMatches} getTeam={getMatchTeams} winners={knockoutWinners} onTeamClick={handleTeamClick} />
+        <BracketTree allMatches={allMatches} getTeam={getMatchTeams} winners={knockoutWinners} onTeamClick={handleTeamClick} highlightId={highlightId} />
       </div>
       <DragOverlay dropAnimation={null}>
         {activeTeam ? (
