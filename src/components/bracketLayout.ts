@@ -52,12 +52,25 @@ export function computeLayout(allMatches: KnockoutMatch[], bp: BpSize): Map<stri
 
 export function computeConnectors(all: KnockoutMatch[], layout: Map<string, LayoutNode>, winners: Record<string, string>): Connector[] {
   const res: Connector[] = [];
+  const borderOffset = (r: KnockoutRound): number => {
+    if (r === 'semi') return 3;   // ring-[3px]
+    if (r === 'final') return 4;  // border-[4px]
+    return 0;
+  };
   for (const m of all) {
     for (const tid of [m.nextMatchId, m.nextLoserMatchId]) {
       if (!tid) continue;
       const from = layout.get(m.id), to = layout.get(tid);
       if (!from || !to) continue;
-      res.push({ x1: from.x + from.w, y1: from.y + from.h / 2, x2: to.x, y2: to.y + to.h / 2, active: !!winners[m.id] });
+      const srcR = from.match.round;
+      const tgtR = to.match.round;
+      res.push({
+        x1: from.x + from.w + borderOffset(srcR),
+        y1: from.y + from.h / 2,
+        x2: to.x - borderOffset(tgtR),
+        y2: to.y + to.h / 2,
+        active: !!winners[m.id],
+      });
     }
   }
   return res;
